@@ -6,6 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator; // Update the type here
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final Color textColor;
   const CustomTextFormField({
     super.key,
     this.obscureText = false,
@@ -13,6 +14,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.validator,
     required this.controller,
     required this.keyboardType,
+   this.textColor= Colors.white,
   });
 
   @override
@@ -22,7 +24,7 @@ class CustomTextFormField extends StatelessWidget {
         horizontal: MediaQuery.of(context).size.width * 0.005,
       ),
       child: TextFormField(
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(color:textColor),
         textInputAction: TextInputAction.next,
         obscureText: obscureText,
         validator: validator, // Update here

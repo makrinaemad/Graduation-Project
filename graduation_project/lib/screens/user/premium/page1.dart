@@ -96,7 +96,7 @@ class Page1_Premium extends StatelessWidget {
                         //   MaterialPageRoute(builder: (context) => AddCamera()),
                         // );
                       },
-                      child: CustomButton(label: 'Continue', image_path: 'assets/images/button2.png', c: Colors.white,),
+                      child: CustomButton(label: 'Continue', imagePath: 'assets/images/button2.png', c: Colors.white,icon: null),
                     )
                     ,
                   ],

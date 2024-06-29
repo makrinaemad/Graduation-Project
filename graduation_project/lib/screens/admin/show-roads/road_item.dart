@@ -1,20 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-
-import '../../../models/CamModel.dart';
-
+import 'package:graduation_project/screens/admin/admin_home.dart';
 import '../../../models/RoadModel.dart';
 import '../../../shared/remote/api_manager.dart';
-import '../admin_home.dart';
-import 'bottom_sheet.dart';
+import '../update_road/edit_road.dart';
+import 'bottom_sheetRoad.dart';
 
-class CameraItem extends StatelessWidget {
 
-  Camera camera ;
-  //RoadModel road;
-  CameraItem (this.camera,{super.key});
+
+class RoadItem extends StatelessWidget {
+  RoadModel road;
+  RoadItem (this.road,{super.key});
 
 
   @override
@@ -29,14 +26,14 @@ class CameraItem extends StatelessWidget {
         startActionPane: ActionPane(motion: DrawerMotion(),
           children: [
             SlidableAction(onPressed: (BuildContext cotext) async {
-              await ApiManager.deleteCamera(camera.id!);
+              await ApiManager.deleteRoad(road.id!);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AdminHome()),
               );
 
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Camera Deleted Successfully')),
+                SnackBar(content: Text('Road Deleted Successfully')),
 
               );
             },
@@ -49,7 +46,7 @@ class CameraItem extends StatelessWidget {
             ),
             SlidableAction(onPressed: (BuildContext cotext){
 
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EditBottomSheet(camera)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => EditRoad(road: road,)));
             //  BottomSheet
               // FirebaseManager.editTask(task);
             },
@@ -58,7 +55,8 @@ class CameraItem extends StatelessWidget {
               // label: "Edit",
               icon:  Icons.edit_outlined,
 
-            )
+            ),
+
           ],),
 
         // child: Column(
@@ -92,17 +90,15 @@ class CameraItem extends StatelessWidget {
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Camera ID : ${camera.id}",style: TextStyle(fontSize: 20,
+                      Text("Road ID : ${road.id??"no"}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(height: 5,),
-                      Text("Road ID : ${camera.road_id}",style: TextStyle(fontSize: 20,
+                      Text("Name : ${road.name??"no"}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
-                      SizedBox(height: 5,),
-
-                     // SizedBox(width: 5,),
-                      Text("Location : ${camera.model}",style: TextStyle(fontSize: 20,
+                      SizedBox(width: 5,),
+                      Text("Address : ${road.address??"no"}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       // Text(camera.location,style: TextStyle(fontSize:25,
@@ -113,24 +109,6 @@ class CameraItem extends StatelessWidget {
                     ],
                   ),
                 ),
-               // Spacer(),
-                // InkWell(
-                //   onTap: (){
-                //   //  FirebaseManager.updateTask(task.id, true);
-                //   },
-                //   child: Container(
-                //     width: 69,
-                //     height: 34,
-                //     decoration: BoxDecoration(
-                //     //    color:task.isDone?Colors.transparent:  primary,
-                //         borderRadius: BorderRadius.circular(12)
-                //     ),
-                //     // child:task.isDone?Text("Done!",style: TextStyle(
-                //     //     color: Color(0xFF61E757),fontWeight:FontWeight.w600,fontSize: 22 ),
-                //      // textAlign: TextAlign.center,) :
-                //   //  Icon(Icons.done,color: Colors.white,size: 28),
-                //   ),
-                // )
               ],
             ),
           ),

@@ -5,6 +5,8 @@ import 'package:graduation_project/models/RoadModel.dart';
 
 import '../../../models/CamModel.dart';
 import '../../../shared/remote/api_manager.dart';
+import '../admin_home.dart';
+import '../drawer_screen.dart';
 import 'camera_item.dart';
 
 class EditCamera extends StatelessWidget {
@@ -19,7 +21,9 @@ class EditCamera extends StatelessWidget {
           appBar: AppBar(
            leading: IconButton(
              icon: Icon(Icons.arrow_back, color: Colors.white),
-             onPressed: () => Navigator.of(context).pop(),
+             onPressed:() {Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => AdminHome()));},
            ),
             backgroundColor: Color.fromRGBO(14,46,92,1),
           ),
@@ -67,6 +71,7 @@ class EditCamera extends StatelessWidget {
               )
             ],
           ),
+      endDrawer: DrawerScreen(),
         );
 
   }

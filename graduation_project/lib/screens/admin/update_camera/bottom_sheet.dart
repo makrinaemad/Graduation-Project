@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/CamModel.dart';
+import '../../../shared/remote/api_manager.dart';
+import 'camera_item.dart';
+
 class EditBottomSheet extends StatefulWidget {
 
   static const String routName="bottom";
-
+  Camera camera ;
+  //RoadModel road;
+  EditBottomSheet (this.camera,{super.key});
   @override
   State<EditBottomSheet> createState() => _EditBottomSheetState();
 
@@ -31,6 +37,43 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              FutureBuilder(
+                future: Future.wait([
+                  ApiManager.getCameras("camera/${widget.camera.id.toString()}"),
+                  // ApiManager.getMethod2("road/"),
+                ]),
+
+                builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: Colors.blue),
+                    );
+                  }
+                  if (snapshot.hasError ) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Text( snapshot.error?.toString() ?? "Has Error"),
+                          TextButton(onPressed: () {}, child: const Text("try again"))
+                        ],
+                      ),
+                    );
+                  }
+                  var cameras = (snapshot.data?[0] as CamModel).camera??[];
+                  // var road = (snapshot.data?[1] as RoadModel);
+                  return
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return
+                            CameraItem(cameras[index]);
+                        },
+                        itemCount: cameras.length,
+                      ),
+                    );
+                },
+              )
+              ,
               TextField(
                 controller:idController ,
                 decoration: InputDecoration(

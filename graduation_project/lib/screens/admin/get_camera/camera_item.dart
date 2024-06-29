@@ -8,6 +8,8 @@ import '../../../models/CamModel.dart';
 import '../../../models/RoadModel.dart';
 import '../../../shared/remote/api_manager.dart';
 import '../admin_home.dart';
+import '../update-camera/UpdateCamera_Form.dart';
+import '../update-camera/get_specificCam.dart';
 import 'bottom_sheet.dart';
 
 class CameraItem extends StatelessWidget {
@@ -48,8 +50,8 @@ class CameraItem extends StatelessWidget {
                   topLeft:Radius.circular(12) ),
             ),
             SlidableAction(onPressed: (BuildContext cotext){
-
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EditBottomSheet(camera)));
+               print("${camera.id}");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificCam(  camera:camera, )));
             //  BottomSheet
               // FirebaseManager.editTask(task);
             },
