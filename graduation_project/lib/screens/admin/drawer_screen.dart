@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/screens/admin/admin_home.dart';
 import 'package:graduation_project/screens/admin/get-roads/get_road.dart';
 import 'package:graduation_project/screens/admin/get_camera/get_camera.dart';
+import 'package:graduation_project/screens/admin/get_plans/get_plans.dart';
 
 import 'all_users/AllAdmins.dart';
 import 'all_users/AllUsers.dart';
@@ -120,6 +121,17 @@ class DrawerScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ShowRoad()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.subscriptions_outlined),
+              title: Text('Subscription Plans'),
+              onTap: () {
+                //////////////
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GetPlan(isUser: false,)),
                 );
               },
             ),

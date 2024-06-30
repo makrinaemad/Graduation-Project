@@ -71,26 +71,19 @@ class UserItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // SizedBox(
-                        //   height: 31,
-                        // ),
-                        Text("user ID : ${user.id}",style: TextStyle(fontSize: 20,
+
+                          Text("Name : ${user.name}",style: TextStyle(fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color:Colors.white,)),
                         SizedBox(height: 5,),
-                        Text("name : ${user.name}",style: TextStyle(fontSize: 20,
+                        Text("Email : ${user.email}",style: TextStyle(fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color:Colors.white,)),
                         SizedBox(height: 5,),
                         // SizedBox(width: 5,),
-                        Text("admin : ${user.isAdmin}",style: TextStyle(fontSize: 20,
+                        Text("Address : ${user.address}",style: TextStyle(fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color:Colors.white,)),
-                        // Text(camera.location,style: TextStyle(fontSize:25,
-                        //   fontWeight: FontWeight.w500,
-                        //   color:Colors.white,
-                        //
-                        // ),)
                       ],
                     ),
                   ),

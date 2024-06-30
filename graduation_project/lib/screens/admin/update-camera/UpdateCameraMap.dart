@@ -26,58 +26,6 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
  // LatLng? latLngCamera= extractLatLngCameraLocation(widget.CamRoad.camera!.dimentions!);
   LatLng? latlnglocal;
 
-  @override
-  void initState() {
-    super.initState();
-    LatLng? latLngCamera;
-    if(widget.change_road==false)
-    latLngCamera= extractLatLngCameraLocation(widget.CamRoad.dimentions!);
-
-    lstPolygone = [
-      Polyline(
-        points: [widget.startPoint, widget.endPoint],
-        strokeWidth: 8.0,
-        color: Colors.blue,
-      ),
-    ];
-    // Calculate the center point
-    double centerLatitude = (widget.startPoint.latitude + widget.endPoint.latitude) / 2;
-    double centerLongitude = (widget.startPoint.longitude + widget.endPoint.longitude) / 2;
-    LatLng centerPoint = LatLng(centerLatitude, centerLongitude);
-    // Zoom and center the map on the polyline
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      mapController.move(centerPoint, 14.0);
-    });
-    if(latLngCamera!=null){
-    _addMarker(latLngCamera);
-    latlnglocal=latLngCamera;}
-  }
-
-  void _addMarker(LatLng latlng) {
-    print("Adding marker at: $latlng"); // Debug logging
-    if (_isWithinBounds(latlng)) {
-      setState(() {
-        markers.clear();
-        markers.add(
-          Marker(
-            point: latlng,
-            width: 50,
-            height: 50,
-            child: Icon(
-              Icons.location_on,
-              color: Colors.green,
-            ),
-          ),
-        );
-        latlnglocal = latlng; // Assign the value here
-      });
-      print("Markers: $markers"); // Debug logging
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Marker is out of the specified bounds')),
-      );
-    }
-  }
 
   bool _isWithinBounds(LatLng point) {
     double minLat = widget.startPoint.latitude < widget.endPoint.latitude
@@ -98,6 +46,41 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
         point.longitude >= minLng &&
         point.longitude <= maxLng;
   }
+  void _addMarker(LatLng latlng) {
+    print("Adding marker at: $latlng");
+
+    if (_isWithinBounds(latlng)) {
+      setState(() {
+        markers.clear();
+        markers.add(
+          Marker(
+            point: latlng,
+            width: 50,
+            height: 50,
+            child: Icon(
+              Icons.location_on,
+              color: Colors.green,
+            ),
+          ),
+        );
+        latlnglocal = latlng;
+      });
+
+      // Move the ScaffoldMessenger logic to a safe place, like in setState callback or build method
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Marker added successfully')),
+        );
+      });
+
+      print("Markers: $markers");
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Marker is out of the specified bounds')),
+      );
+    }
+  }
+
 
   void handleSubmit() async {
     if (latlnglocal != null) {
@@ -131,6 +114,32 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    LatLng? latLngCamera;
+    if(widget.change_road==false)
+      latLngCamera= extractLatLngCameraLocation(widget.CamRoad.dimentions!);
+
+    lstPolygone = [
+      Polyline(
+        points: [widget.startPoint, widget.endPoint],
+        strokeWidth: 8.0,
+        color: Colors.blue,
+      ),
+    ];
+    // Calculate the center point
+    double centerLatitude = (widget.startPoint.latitude + widget.endPoint.latitude) / 2;
+    double centerLongitude = (widget.startPoint.longitude + widget.endPoint.longitude) / 2;
+    LatLng centerPoint = LatLng(centerLatitude, centerLongitude);
+    // Zoom and center the map on the polyline
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      mapController.move(centerPoint, 14.0);
+    });
+    if(latLngCamera!=null){
+      _addMarker(latLngCamera);
+      latlnglocal=latLngCamera;}
+  }
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -148,6 +157,7 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
                 zoom: 8.0,
                 onTap: (tapPosition, latlng) {
                   print("${latlng.latitude}-${latlng.longitude} tapped");
+
                   _addMarker(latlng);
                 },
               ),

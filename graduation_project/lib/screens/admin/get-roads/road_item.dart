@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:graduation_project/screens/admin/admin_home.dart';
+import 'package:graduation_project/screens/admin/update_road/latlng.dart';
 import '../../../models/RoadModel.dart';
 import '../../../shared/remote/api_manager.dart';
 import '../update_road/edit_road.dart';
@@ -95,7 +96,7 @@ class RoadItem extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(width: 5,),
-                      Text("Address : ${road.address??"no"}",style: TextStyle(fontSize: 20,
+                      Text("Address : ${extractdescriptionFromAddress(road.address!)}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       // Text(camera.location,style: TextStyle(fontSize:25,

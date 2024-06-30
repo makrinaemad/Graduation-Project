@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:graduation_project/models/CamModel.dart';
 import 'package:graduation_project/models/UserModel.dart';
 import 'package:http/http.dart'as http;
-
 import '../../models/CamRoadModel.dart';
+import '../../models/PlanModel.dart';
 import '../../models/RoadModel.dart';
-import '../../models/RoadModel2.dart';
 import '../constant/constant.dart';
 class ApiManager{
   static Future<CamModel> getCameras(String endPoint)async{
@@ -28,7 +27,27 @@ class ApiManager{
     }
 
   }
+  static Future<PlanModel> getPlans()async{
+    String  endPoint="subscription/getPlans";
+    try{
+      Uri url=Uri.https(Base,endPoint
+      );
+      http.Response response=await http.get(url,headers: {
+        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      );
+      var jsonData=jsonDecode(response.body);
+      PlanModel Response=PlanModel.fromJson(jsonData);
 
+      return Response;}
+
+    catch(e){
+      throw(e);
+    }
+
+  }
   // static Future<CamRoadModel> getSpecificCamera(String endPoint)async{
   //   try{
   //     Uri url=Uri.https(Base,endPoint
@@ -66,7 +85,7 @@ class ApiManager{
   }
 
 
-  static Future<RoadModel2> getSpecificRoad(String endPoint) async {
+  static Future<RoadModel> getSpecificRoad(String endPoint) async {
     try {
       Uri url = Uri.https(Base, endPoint);
       http.Response response = await http.get(url, headers: {
@@ -78,7 +97,7 @@ class ApiManager{
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
         print('API response: $jsonData');  // Debug: Print the API response
-        RoadModel2 roadModel = RoadModel2.fromJson(jsonData);
+        RoadModel roadModel = RoadModel.fromJson2(jsonData);
         return roadModel;
       } else {
         print('Failed to load road: ${response.statusCode}');  // Debug: Print error code
@@ -92,17 +111,18 @@ class ApiManager{
 
   static Future<List<RoadModel>> getRoads(String endPoint) async {
     try {
-      Uri url = Uri.https(Base, endPoint);
+      Uri url = Uri.https(Base, endPoint); // Replace 'your_base_url_here' with your actual base URL
       http.Response response = await http.get(url, headers: {
         "Content-Type": "application/json",
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
+
       if (response.statusCode == 200) {
         return parseRoadModels(response.body);
       } else {
-        print('Failed to load road models${response.reasonPhrase}');
-        throw Exception('Failed to load road models${response.reasonPhrase}');
+        print('Failed to load road models: ${response.reasonPhrase}');
+        throw Exception('Failed to load road models: ${response.reasonPhrase}');
       }
     } catch (e) {
       print('Failed to load road models: $e');
@@ -111,10 +131,9 @@ class ApiManager{
   }
 
   static List<RoadModel> parseRoadModels(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    final parsed = jsonDecode(responseBody) as List<dynamic>;
     return parsed.map<RoadModel>((json) => RoadModel.fromJson(json)).toList();
   }
-
   static Future<void> PostRoad(RoadModel road) async {
 
     // Convert RoadModel instance to JSON

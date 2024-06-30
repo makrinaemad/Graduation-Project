@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:graduation_project/models/PlanModel.dart';
 
 
 import '../../../models/CamModel.dart';
@@ -12,47 +13,47 @@ import '../update-camera/UpdateCamera_Form.dart';
 import '../update-camera/get_specificCam.dart';
 
 
-class CameraItem extends StatelessWidget {
+class PlanItem extends StatelessWidget {
 
-  Camera camera ;
+  Plans plan ;
   //RoadModel road;
-  CameraItem (this.camera,{super.key});
+  PlanItem  (this.plan,{super.key});
 
 
   @override
   Widget build(BuildContext context) {
     return Card (
       color: Color.fromRGBO(14,46,92,1),
-      elevation: 12,
+      elevation: 20,
       margin: EdgeInsets.symmetric(horizontal: 25,vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),
           side: BorderSide(color: Colors.transparent)),
-      child: Slidable(
-        startActionPane: ActionPane(motion: DrawerMotion(),
-          children: [
-            SlidableAction(onPressed: (BuildContext cotext) async {
-              await ApiManager.deleteCamera(camera.id!);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AdminHome()),
-              );
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Camera Deleted Successfully')),
-
-              );
-            },
-              spacing: 15,
-              backgroundColor: Color.fromRGBO(255,110,93,1),
-             // label: "Delete",
-              icon: Icons.delete_outline,
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
-                  topLeft:Radius.circular(12) ),
-            ),
+       child: Slidable(
+         startActionPane: ActionPane(motion: DrawerMotion(),
+           children: [
+      //       SlidableAction(onPressed: (BuildContext cotext) async {
+      //         await ApiManager.deleteCamera(plan.id!);
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => AdminHome()),
+      //         );
+      //
+      //         ScaffoldMessenger.of(context).showSnackBar(
+      //           SnackBar(content: Text('Camera Deleted Successfully')),
+      //
+      //         );
+      //       },
+      //         spacing: 15,
+      //         backgroundColor: Color.fromRGBO(255,110,93,1),
+      //         // label: "Delete",
+      //         icon: Icons.delete_outline,
+      //         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
+      //             topLeft:Radius.circular(12) ),
+      //       ),
             SlidableAction(onPressed: (BuildContext cotext){
-               print("${camera.id}");
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificCam(  camera:camera, )));
-            //  BottomSheet
+              print("${plan.id}");
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificCam(  camera:camera, )));
+              //  BottomSheet
               // FirebaseManager.editTask(task);
             },
               spacing: 15,
@@ -78,44 +79,57 @@ class CameraItem extends StatelessWidget {
               children: [
 
                 Container(
-                  height: 60,
-                  width: 3,
-                  decoration:BoxDecoration(
+                    height: 100,
+                    width: 2,
+                    decoration:BoxDecoration(
 
                       color:Colors.white,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(color:Colors.white),
-                )),
-                SizedBox(width:20),
+                    )),
+               SizedBox(width:10),
                 Expanded(
                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Camera ID : ${camera.id}",style: TextStyle(fontSize: 20,
+                      Text("Plan ID : ${plan.id}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
+                      SizedBox(height: 5,),
+                      Text("Name : ${plan.name}",style: TextStyle(fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color:Colors.white,)),
+                      SizedBox(height: 5,),
 
-                      SizedBox(width: 5,),
-                      Text("Model : ${camera.model}",style: TextStyle(fontSize: 20,
+                      // SizedBox(width: 5,),
+                      Text("Description : ${plan.description}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(height: 5,),
-                      Text("Start Date : ${camera.startService}",style: TextStyle(fontSize: 20,
+
+                      // SizedBox(width: 5,),
+                      Text("Price : ${plan.price}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color:Colors.white,)),
-                      SizedBox(height: 5,),
+                      Text("Subscription duration : ${plan.periodInDays}",style: TextStyle(fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color:Colors.white,)),
+                      Text("Discount : ${plan.discount}",style: TextStyle(fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color:Colors.white,)),
                       // Text(camera.location,style: TextStyle(fontSize:25,
                       //   fontWeight: FontWeight.w500,
                       //   color:Colors.white,
                       //
                       // ),)
+
                     ],
                   ),
                 ),
-               // Spacer(),
+                // Spacer(),
                 // InkWell(
                 //   onTap: (){
                 //   //  FirebaseManager.updateTask(task.id, true);

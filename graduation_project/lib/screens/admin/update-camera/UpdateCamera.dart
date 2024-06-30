@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/shared/remote/api_manager.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../../../models/CamModel.dart';
 import '../../../models/CamRoadModel.dart';
 import '../../../models/RoadModel.dart';
-import '../../../models/RoadModel2.dart';
 import '../update_road/latlng.dart';
 import 'UpdateCameraMap.dart';
 import 'UpdateCamera_Form.dart';
@@ -20,7 +18,7 @@ class UpdateCamera extends StatefulWidget {
 }
 
 class _UpdateCameraState extends State<UpdateCamera> {
-  late Future<RoadModel2> futureCamRoadModel;
+  late Future<RoadModel> futureCamRoadModel;
 
   @override
   void initState() {
@@ -32,7 +30,7 @@ class _UpdateCameraState extends State<UpdateCamera> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<RoadModel2>(
+    return FutureBuilder<RoadModel>(
       future: futureCamRoadModel,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,8 +38,8 @@ class _UpdateCameraState extends State<UpdateCamera> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {
-          RoadModel2 camRoadModel = snapshot.data!;
-         // print('RoadModel data: ${camRoadModel.toJson()}');  // Debug: Print RoadModel data
+          RoadModel camRoadModel = snapshot.data!;
+          // print('RoadModel data: ${camRoadModel.toJson()}');  // Debug: Print RoadModel data
           if (camRoadModel.address != null) {
             List<LatLng> latLngList = extractLatLngFromAddress(camRoadModel.address!);
             return UpdateCameraMap(

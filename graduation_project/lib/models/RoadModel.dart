@@ -19,7 +19,12 @@ class RoadModel {
       message: json['message'],
     );
   }
-
+  factory RoadModel.fromJson2(Map<String, dynamic> json) {
+    return RoadModel(
+      id: json['result']['id'],
+      name: json['result']['name'],
+      address: json['result']['address'],
+    );}
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -28,4 +33,6 @@ class RoadModel {
       'message': message,
     };
   }
+
+
 }

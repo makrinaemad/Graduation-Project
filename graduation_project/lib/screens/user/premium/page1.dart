@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/shared/style/button.dart';
+import 'package:graduation_project/screens/user/premium/plan_user_item.dart';
+import '../../../models/PlanModel.dart';
+import '../../../shared/remote/api_manager.dart';
 
 class Page1_Premium extends StatelessWidget {
   static const String routName="premium";
@@ -15,7 +17,7 @@ class Page1_Premium extends StatelessWidget {
         children: [
           Expanded(
 
-          child:  Stack(
+            child:  Stack(
               children: [
                 Container(
                     height: 300,
@@ -32,15 +34,16 @@ class Page1_Premium extends StatelessWidget {
                     height: 320,
                   ),
                 ),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Text(
-                  'Forcast for more than 7 days!',
-                  style: TextStyle(fontSize:18, fontWeight: FontWeight.bold,color: Colors.white),
-                ),),
+
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    'Forcast for more than 7 days!',
+                    style: TextStyle(fontSize:18, fontWeight: FontWeight.bold,color: Colors.white),
+                  ),),
               ],
             ),
-          ),SizedBox(height: 40),
+          ),SizedBox(height:40),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(20),
@@ -51,55 +54,55 @@ class Page1_Premium extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'UPGRADE TO PREMIUM',
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Color(0xff076092)),
-                    ),
-                    SizedBox(height: 40),
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black)
-    ,
-    borderRadius: BorderRadius.circular(18),),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Monthly'),
-                          Text('\$32'),
-                        ],
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'UPGRADE TO PREMIUM',
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Color(0xff076092)),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black)
-                        ,
-                        borderRadius: BorderRadius.circular(18),),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Yearly'),
-                          Text('\$90'),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 35),
-                    InkWell(
+                      SizedBox(height: 20),
 
-                      onTap: () {
-                        //////
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => AddCamera()),
-                        // );
-                      },
-                      child: CustomButton(label: 'Continue', imagePath: 'assets/images/button2.png', c: Colors.white,icon: null),
-                    )
-                    ,
-                  ],
+                      FutureBuilder(
+                        future: Future.wait([
+                          ApiManager.getPlans(),
+                          // ApiManager.getMethod2("road/"),
+                        ]),
+
+                        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(color: Colors.blue),
+                            );
+                          }
+                          if (snapshot.hasError ) {
+                            return Center(
+                              child: Column(
+                                children: [
+                                  Text( snapshot.error?.toString() ?? "Has Error"),
+                                  TextButton(onPressed: () {}, child: const Text("try again"))
+                                ],
+                              ),
+                            );
+                          }
+                          var plans = (snapshot.data?[0] as PlanModel).plans??[];
+                          // var road = (snapshot.data?[1] as RoadModel);
+                          return
+                            Expanded(
+                              child: ListView.builder(
+                                itemBuilder: (context, index) {
+
+                                  return PlanUserItem(plans[index]);
+                                },
+                                itemCount: plans.length,
+                              ),
+                            );
+                        },
+                      ),
+
+                    ],
+                  ),
                 ),
               ),
             ),),
