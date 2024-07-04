@@ -1,9 +1,9 @@
-import 'package:arrange_gp/cubit/user_state.dart';
+import 'package:arrange_gp/cubit/user%20cubit/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../models/login_model.dart';
-import '../repositories/user_repository.dart';
+import '../../models/login_model.dart';
+import '../../repositories/user_repository.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class UserCubit extends Cubit<UserState> {

@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:arrange_gp/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/user_state.dart';
+import '../cubit/user cubit/user_cubit.dart';
+import '../cubit/user cubit/user_state.dart';
 
 import '../screens/change_password_screen.dart';
 import '../screens/edit_profile_screen.dart';
+import '../screens/forcasting_screen.dart';
 import '../screens/forget _password_screen.dart';
 import '../screens/register_screen.dart';
 import 'custom_button.dart';
@@ -31,7 +32,7 @@ class LoginForm extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EditPasswordScreen(),
+                builder: (context) => ForecastingScreen(),
               ),
             );
           } else if (state is SignInFailure) {

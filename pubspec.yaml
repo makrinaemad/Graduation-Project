@@ -43,8 +43,9 @@ dependencies:
   dartz: ^0.10.1
   animated_splash_screen: ^1.3.0
   form_field_validator: ^1.1.0
-  get: ^4.6.6
   flutter_otp_text_field: ^1.1.3+2
+  open_street_map_search_and_pick: ^0.1.1
+  location_picker_flutter_map: ^3.0.1
 
 
 dev_dependencies:

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../cubit/user_cubit.dart';
-import '../cubit/user_state.dart';
+
+import '../cubit/user cubit/user_cubit.dart';
+import '../cubit/user cubit/user_state.dart';
 import '../screens/login_screen.dart';
 import 'custom_button.dart';
 import 'custom_textfield.dart';

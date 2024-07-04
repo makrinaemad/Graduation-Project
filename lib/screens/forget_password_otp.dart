@@ -4,8 +4,8 @@ import 'package:arrange_gp/screens/register_screen.dart';
 import 'package:arrange_gp/screens/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/user_cubit.dart';
-import '../cubit/user_state.dart';
+import '../cubit/user cubit/user_cubit.dart';
+import '../cubit/user cubit/user_state.dart';
 import '../widgets/custom_button.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 

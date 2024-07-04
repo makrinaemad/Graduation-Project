@@ -1,4 +1,4 @@
-import '../models/user_model.dart';
+import '../../models/user_model.dart';
 
 class UserState {}
 
@@ -6,7 +6,7 @@ final class UserInitial extends UserState {}
 
 final class SignInSuccess extends UserState {}
 
-final class UploadProfilePic extends UserState {}
+
 
 final class SignInLoading extends UserState {}
 
