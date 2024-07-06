@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/HistoryModel.dart';
 import 'package:graduation_project/shared/remote/api_manager.dart';
-
-import '../../admin/drawer_screen.dart';
+import '../../../models/UserModel.dart';
 import 'HistoryItemUser.dart';
 
 class HistoryUserPage extends StatefulWidget {
   static const String routName="HistoryUser";
+  final Result user;
+  HistoryUserPage(this.user, {super.key});
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
@@ -90,14 +91,13 @@ class _HistoryPageState extends State<HistoryUserPage> {
           ),
         ],
       ),
-      endDrawer: DrawerScreen(),
     );
   }
 
   Widget _buildHistoryList() {
     if (_filteredHistory.isEmpty && _searchController.text.isEmpty) {
       return FutureBuilder<List<HistoryModel>>(
-        future: ApiManager.getHistoryUser(192022),
+        future: ApiManager.getHistoryUser(widget.user.id!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

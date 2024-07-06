@@ -4,10 +4,10 @@ import '../../../shared/style/detailsItem.dart';
 import '../../user/setting/edit_profile_screen.dart';
 import '../drawer_screen.dart';
 
-class UserDetailsScreen extends StatelessWidget {
+class AdminProfile extends StatelessWidget {
   final Result user;
 
-  UserDetailsScreen({required this.user});
+  AdminProfile ({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +43,17 @@ class UserDetailsScreen extends StatelessWidget {
         ],
       ),
       endDrawer: DrawerScreen(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // Navigate to the edit screen or perform editing functionality
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)),
-      //     );
-      //   },
-      //   backgroundColor: Color.fromRGBO(14, 46, 92, 1),
-      //   child: Icon(Icons.edit),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the edit screen or perform editing functionality
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)),
+          );
+        },
+        backgroundColor: Color.fromRGBO(14, 46, 92, 1),
+        child: Icon(Icons.edit),
+      ),
     );
   }
 }

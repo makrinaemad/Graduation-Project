@@ -20,12 +20,14 @@ class Page1_Premium extends StatelessWidget {
             child:  Stack(
               children: [
                 Container(
-                    height: 300,
-
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(14,46,92,1),
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),bottomLeft: Radius.circular(20)), // Adjust the value as needed
-                    )
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(14, 46, 92, 1),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ), // Adjust the value as needed
+                  ),
                 ),
                 Center(
                   child: Image.asset(
@@ -34,15 +36,34 @@ class Page1_Premium extends StatelessWidget {
                     height: 320,
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Text(
-                    'Forcast for more than 7 days!',
-                    style: TextStyle(fontSize:18, fontWeight: FontWeight.bold,color: Colors.white),
-                  ),),
+                    'Forecast for more than 7 days!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 15, // Adjust the position as needed
+                  right: 10, // Adjust the position as needed
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.cancel,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      // Add your cancel action here
+                    },
+                  ),
+                ),
               ],
-            ),
+            )
+,
           ),SizedBox(height:40),
           Expanded(
             child: Container(

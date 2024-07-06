@@ -6,7 +6,6 @@ import 'package:graduation_project/screens/admin/admin_home.dart';
 import 'package:graduation_project/screens/admin/get-roads/get_road.dart';
 import 'package:graduation_project/screens/admin/get_camera/get_camera.dart';
 import 'package:graduation_project/screens/spalsh_screen.dart';
-import 'package:graduation_project/screens/user/get_history_user/GetHistoryUser.dart';
 import 'package:graduation_project/screens/user/premium/page1.dart';
 import 'package:graduation_project/screens/user/user_forcast/forcasting_screen.dart';
 
@@ -25,11 +24,10 @@ class MyApp extends StatelessWidget {
     return
   MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute:  Page1_Premium.routName,
+      initialRoute:  ForecastingScreen.routName,
       routes: {
         SplashScreen.routName:(context) => SplashScreen(),
         LoginScreen.routeName:(context) =>LoginScreen(),
-        HistoryUserPage.routName:(context) =>HistoryUserPage(),
         ForecastingScreen.routName:(context) => ForecastingScreen(),
         AdminHome.routName:(context) => AdminHome(),
         EditCamera.routName:(context)=>EditCamera(),

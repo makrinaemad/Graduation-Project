@@ -56,6 +56,8 @@ class ApiManager{
 
 
   static Future<dynamic> getCameras(String endPoint)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try{
       Uri url=Uri.https(Base,endPoint
             );
@@ -77,6 +79,8 @@ class ApiManager{
   }
 
   Future<Map<String, dynamic>> updatePlan( Plans plan) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     String  endPoint="subscription/updatePlan/${plan.id}";
     Uri url=Uri.https(Base,endPoint
     );
@@ -97,6 +101,8 @@ class ApiManager{
     }
   }
   static Future<PlanModel> getPlans()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     String  endPoint="subscription/getPlans";
     try{
       Uri url=Uri.https(Base,endPoint
@@ -119,6 +125,8 @@ class ApiManager{
   }
 
   static Future<CamRoadModel> getSpecificCamera(String endPoint) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Uri url = Uri.https(Base, endPoint);
       http.Response response = await http.get(url, headers: {
@@ -136,6 +144,8 @@ class ApiManager{
 
 
   static Future<RoadModel> getSpecificRoad(String endPoint) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Uri url = Uri.https(Base, endPoint);
       http.Response response = await http.get(url, headers: {
@@ -160,6 +170,8 @@ class ApiManager{
   }
 
   static Future<dynamic> getRoads(String endPoint) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     List<RoadModel> _roads = [];
 
    // List<RoadModel> get roads => _roads;
@@ -191,6 +203,8 @@ class ApiManager{
   //   return parsed.map<RoadModel>((json) => RoadModel.fromJson(json)).toList();
   // }
   static Future<void> PostRoad(RoadModel road) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
     // Convert RoadModel instance to JSON
     Map<String, dynamic> jsonData = road.toJson();
@@ -216,6 +230,8 @@ class ApiManager{
     }
   }
   static Future<void> deleteRoad(int id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
     Uri url = Uri.https(Base,'road/$id');
     try {
@@ -237,6 +253,8 @@ class ApiManager{
     }
   }
   static Future<void> deleteCamera(int id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
     Uri url = Uri.https(Base,'camera/$id');
     try {
@@ -259,6 +277,8 @@ class ApiManager{
   }
 
   static Future<void> updateRoad(RoadModel updatedRoad) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Map<String, dynamic> jsonData = updatedRoad.toJson();
     Uri url = Uri.https(Base,'road/update/${updatedRoad.id}');
      // Assuming API endpoint structure
@@ -278,6 +298,8 @@ class ApiManager{
   }
 
   static Future<void> updateCamera(Camera updatedCamera) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Map<String, dynamic> jsonData = updatedCamera.toJsonupdate();
       Uri url = Uri.https(Base, '/road/camera/update/${updatedCamera.id}');
@@ -311,6 +333,8 @@ class ApiManager{
   }
 
   static Future<void> PostCam(Camera camera) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Map<String, dynamic> jsonData = camera.toJson();
     Uri url = Uri.https(Base, 'camera/add');
 
@@ -354,6 +378,8 @@ class ApiManager{
 
 
   static Future<UserModel> getUsers(String endPoint)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try{
       Uri url=Uri.https(Base,endPoint
       );
@@ -374,6 +400,8 @@ class ApiManager{
 
   }
   static Future<Plans?> fetchPlanData(String endPoint) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Uri url=Uri.https(Base,endPoint
       );
@@ -404,6 +432,8 @@ class ApiManager{
 
 
   Future<Result?> fetchUserData(String endPoint) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Uri url=Uri.https(Base,endPoint
       );
@@ -432,7 +462,8 @@ class ApiManager{
   }
 
   static Future<void> createAdmin(Result road) async {
-
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     // Convert RoadModel instance to JSON
     Map<String, dynamic> jsonData = road.toJson();
     Uri url = Uri.https(Base, 'user/Admins');
@@ -460,6 +491,8 @@ class ApiManager{
 
 
   static Future<List<HistoryModel>> getHistory() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Uri url = Uri.https(Base, "forecast"); // Replace 'your_base_url_here' with your actual base URL
     http.Response response = await http.get(url, headers: {
       "Content-Type": "application/json",
@@ -477,12 +510,15 @@ class ApiManager{
   }
 
   static Future<List<HistoryModel>> getHistoryUser(int id) async {
-    String token2="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXI4MjJAZ21haWwuY29tIiwiaWQiOjE5MjAyMiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MjAxODU4MDYsImV4cCI6MTcyMjc3NzgwNn0.YpvQji08pPjo3Ub8_WBNIHB-_LnSKb-XiP4H3betUZk";
-    Uri url = Uri.https(Base, "forecast/${192022}"); // Replace 'your_base_url_here' with your actual base URL
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    Result? user = await ApiManager().fetchUserByToken(token!);
+    //String token2="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXI4MjJAZ21haWwuY29tIiwiaWQiOjE5MjAyMiwiYWRtaW4iOmZhbHNlLCJpYXQiOjE3MjAxODU4MDYsImV4cCI6MTcyMjc3NzgwNn0.YpvQji08pPjo3Ub8_WBNIHB-_LnSKb-XiP4H3betUZk";
+    Uri url = Uri.https(Base, "forecast/${user!.id}"); // Replace 'your_base_url_here' with your actual base URL
     http.Response response = await http.get(url, headers: {
       "Content-Type": "application/json",
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token2',
+      'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body)['data'];
@@ -494,6 +530,8 @@ class ApiManager{
 
 
   Future<SubscriptionsResponse2> fetchSubscriptions2(int id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Uri url = Uri.https(Base, "subscription/getSub_by_plan/${id}");
     http.Response response = await http.get(url, headers: {
       "Content-Type": "application/json",
@@ -506,6 +544,8 @@ class ApiManager{
       throw Exception('Failed to load subscriptions');
     }}
   Future<dynamic> fetchSubscriptions() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Uri url = Uri.https(Base, "subscription/getSub");
     http.Response response = await http.get(url, headers: {
       "Content-Type": "application/json",
@@ -520,6 +560,8 @@ class ApiManager{
 
 
   Future<dynamic> fetchCameras(int id) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
         Uri url = Uri.https(Base, "camera/cameras/${id}"); // Replace 'your_base_url_here' with your actual base URL
         http.Response response = await http.get(url, headers: {
           "Content-Type": "application/json",
@@ -535,6 +577,8 @@ class ApiManager{
   }
 
   Future<String> Subscripe(String token,int amount,int planId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     // Define the URL for the POST request
     Uri url = Uri.https(Base, "subscription/subscribe");
     final Map<String, dynamic> payload = {
@@ -544,6 +588,7 @@ class ApiManager{
 
     // Send the POST request
     http.Response response = await http.post(url, headers: {
+
       "Content-Type": "application/json",
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -569,6 +614,8 @@ class ApiManager{
 
 
   Future<Result?> fetchUserByToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     try {
       Uri url = Uri.https(Base, 'user/get_user_by_token'); // Replace with your actual base URL
       http.Response response = await http.get(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/screens/user/setting/change_password_screen.dart';
 import 'package:graduation_project/screens/user/setting/edit_profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/UserModel.dart';
 import '../../shared/constant/constants.dart';
+import '../../shared/remote/api_manager.dart';
+import 'get_history_user/GetHistoryUser.dart';
 
 
 class MenuIconList extends StatelessWidget {
@@ -10,14 +14,19 @@ class MenuIconList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return PopupMenuButton(
       icon: const Icon(Icons.menu,color:Colors.white,size:30), // Use the menu icon here
-      onSelected: (value) {
+      onSelected: (value) async {
         if (value == "Edit profile") {
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          var token = prefs.getString('token');
+          print('Retrieved Token: $token'); // Print the token to check its value
+          Result? user = await ApiManager().fetchUserByToken(token!);
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EditProfileScreen(),
+              builder: (context) => EditProfileScreen(user:user!),
             ),
           );
         }
@@ -28,6 +37,16 @@ class MenuIconList extends StatelessWidget {
               builder: (context) => ChangePasswordScreen(),
             ),
           );
+        }
+        else if (value == "History") {
+
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            var token = prefs.getString('token');
+            Result? user = await ApiManager().fetchUserByToken(token!);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HistoryUserPage(user!)),
+            );
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
@@ -61,7 +80,21 @@ class MenuIconList extends StatelessWidget {
             ],
           ),
         ),
-
+        PopupMenuItem(
+          value: "History",
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(Icons.history_sharp,color: Constants.primaryColor,),
+              ),
+              Text(
+                'History',
+                style: TextStyle(fontSize: 15,color:Constants.primaryColor),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

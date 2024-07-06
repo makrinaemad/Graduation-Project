@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/models/PlanModel.dart';
-import '../../../shared/constant/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../shared/remote/api_manager.dart';
 import 'PaymentWebView.dart';
 
@@ -16,8 +16,10 @@ class PlanUserItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return          MaterialButton(
       onPressed: () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        var token = prefs.getString('token');
       try {
-        String url=await ApiManager().Subscripe(token,plan.price!,plan.id!);
+        String url=await ApiManager().Subscripe(token!,plan.price!,plan.id!);
         Navigator.push(
           context,
           MaterialPageRoute(

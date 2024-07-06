@@ -60,7 +60,7 @@ class _EditRoadMapState extends State<EditRoadMap> {
       double centerLongitude = (startPoint!.longitude + endPoint!.longitude) / 2;
       LatLng centerPoint = LatLng(centerLatitude, centerLongitude);
     //  widget.road?.address='${widget.address} ${startPoint!.latitude}-${startPoint!.longitude} ${endPoint!.latitude}-${endPoint!.longitude}';
-      mapController.move(centerPoint, 8.0);
+      mapController.move(centerPoint, 14.0);
     }
   }
 

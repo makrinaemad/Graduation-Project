@@ -26,7 +26,7 @@ class _MyAddMapState extends State<MyAddMap> {
     super.initState();
     mapController = MapController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      mapController.move(widget.setcenterPoint, mapController.zoom);
+      mapController.move(widget.setcenterPoint, 14);
     });
     print("initState: centerPoint = ${widget.setcenterPoint}");
   }
@@ -36,7 +36,7 @@ class _MyAddMapState extends State<MyAddMap> {
     super.didUpdateWidget(oldWidget);
     // Update centerPoint when the widget is updated
     if (oldWidget.setcenterPoint != widget.setcenterPoint) {
-      mapController.move(widget.setcenterPoint, mapController.zoom);
+      mapController.move(widget.setcenterPoint, 14);
       print("didUpdateWidget: centerPoint updated to ${widget.setcenterPoint}");
     }
   }

@@ -1,11 +1,15 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../models/UserModel.dart';
+import '../../shared/remote/api_manager.dart';
 import '../../shared/style/button.dart';
 import 'add-camera/AddCamera.dart';
 import 'add-camera/AddCamera_Form.dart';
 import 'add_admin/AddAdmin.dart';
 import 'add_road/AddRoadPage.dart';
+import 'all_users/admin_profile.dart';
 import 'drawer_screen.dart';
 
 class AdminHome extends StatelessWidget {
@@ -30,11 +34,13 @@ class AdminHome extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.person, color: Colors.white,size: 30),
           onPressed: ()
-           {
-             //Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => AddAdmin()),
-          // );
+           async {final SharedPreferences prefs = await SharedPreferences.getInstance();
+           var token = prefs.getString('token');
+           Result? user = await ApiManager().fetchUserByToken(token!);
+             Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AdminProfile(user: user!,)),
+          );
              } ,
         ),
        backgroundColor: Color.fromRGBO(14,46,92,1),

@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/shared/remote/api_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/ForcastingDataModel.dart';
 import '../../../models/ForcastingModel.dart';
+import '../../../models/UserModel.dart';
 import '../../../shared/constant/constants.dart';
+import '../../admin/all_users/UserDetailsScreen.dart';
 
 
 class ShowForecastingResultScreen extends StatelessWidget {
-
-  //final ApiService apiService = ApiService(baseUrl: 'example.com');
   final RoadData roadData;
-  // = RoadData(
-  //   roadId: 'R123',
-  //   date: '2024-07-06',
-  //   time: '08:00',
-  // );
-  final String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1haG1vdWQuc2FhZDM4OTVAZ21haWwuY29tIiwiaWQiOjY1MzkwOCwiYWRtaW4iOnRydWUsImlhdCI6MTcxNzg0ODIxOCwiZXhwIjoxNzIwNDQwMjE4fQ.U2Z1Bs6ekvr1pWBnBB8CrUki_vJQDrLq8ftgQ8UHTzA';
-
    ShowForecastingResultScreen({super.key, required this.roadData});
 
   @override
@@ -34,12 +28,19 @@ class ShowForecastingResultScreen extends StatelessWidget {
             onPressed: () {},
           ),
         ],
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          width: 32,
-          height: 32,
-          child: const Image(image: AssetImage("assets/images/profile.png")),
-        ),
+         leading: IconButton(
+          icon: Icon(Icons.person, color: Colors.white,size: 30),
+      onPressed: ()
+      async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        var token = prefs.getString('token');
+        Result? user = await ApiManager().fetchUserByToken(token!);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserDetailsScreen(user: user!)),
+        );
+      } ,
+    ),
       ),
       body: FutureBuilder<VehicleForecast>(
         future: ApiManager().sendForecastingData(roadData),

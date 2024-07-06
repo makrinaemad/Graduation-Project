@@ -23,20 +23,10 @@ class _MyAddMapState extends State<Map> {
     super.initState();
     mapController = MapController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      mapController;
+      mapController.move(  LatLng(30.0444, 31.2357), 10.0);
     });
   //  print("initState: centerPoint = ${widget.setcenterPoint}");
   }
-
-  // @override
-  // void didUpdateWidget(covariant Map oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   // Update centerPoint when the widget is updated
-  //   if (oldWidget.setcenterPoint != widget.setcenterPoint) {
-  //     mapController.move(widget.setcenterPoint, mapController.zoom);
-  //     print("didUpdateWidget: centerPoint updated to ${widget.setcenterPoint}");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +36,9 @@ class _MyAddMapState extends State<Map> {
           mapController: mapController,
           options: MapOptions(
             center:  LatLng(30.0444, 31.2357),
-            zoom: 8.0,
+            zoom:14,
             enableScrollWheel: true,
-            initialZoom: 8,
+            initialZoom: 20,
             onTap: (_, point) {
             },
           ),

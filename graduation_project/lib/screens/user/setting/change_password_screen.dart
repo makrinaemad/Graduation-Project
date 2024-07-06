@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         print(response.body);
         showDialog(
-          context: Get.context!,
+          context: context,
           builder: (context) {
             return const SimpleDialog(
               title: Text('Updates Successfully'),
@@ -89,9 +89,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         throw jsonDecode(response.body)['message'] ?? "Unknown error occurred";
       }
     } catch (error) {
-      Get.back();
+      //Get.back();
       showDialog(
-        context: Get.context!,
+        context: context!,
         builder: (context) {
           return SimpleDialog(
             title: Text('Error'),
