@@ -32,6 +32,17 @@ class Plans {
       this.discount, 
       this.periodInDays,});
 
+  factory Plans.fromJson2(Map<String, dynamic> json) {
+    return Plans(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'Unknown',
+      description: json['description'] ?? 'No description available',
+      type: json['type'] ?? 'Unknown',
+      price: json['price'] ?? 0,
+      discount: json['discount']  ?? 0.0,
+      periodInDays: json['period_in_days'] ?? 0,
+    );
+  }
   Plans.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
@@ -46,7 +57,7 @@ class Plans {
   String? description;
   String? type;
   int? price;
-  int? discount;
+  dynamic? discount;
   int? periodInDays;
 
   Map<String, dynamic> toJson() {

@@ -2,21 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:graduation_project/models/PlanModel.dart';
-
-
-import '../../../models/CamModel.dart';
-
-import '../../../models/RoadModel.dart';
-import '../../../shared/remote/api_manager.dart';
-import '../admin_home.dart';
-import '../update-camera/UpdateCamera_Form.dart';
-import '../update-camera/get_specificCam.dart';
+import '../update_plan/UpdatePlan.dart';
+import 'GetSubscriotionsPlan.dart';
 
 
 class PlanItem extends StatelessWidget {
 
   Plans plan ;
-  //RoadModel road;
+
   PlanItem  (this.plan,{super.key});
 
 
@@ -31,30 +24,26 @@ class PlanItem extends StatelessWidget {
        child: Slidable(
          startActionPane: ActionPane(motion: DrawerMotion(),
            children: [
-      //       SlidableAction(onPressed: (BuildContext cotext) async {
-      //         await ApiManager.deleteCamera(plan.id!);
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => AdminHome()),
-      //         );
-      //
-      //         ScaffoldMessenger.of(context).showSnackBar(
-      //           SnackBar(content: Text('Camera Deleted Successfully')),
-      //
-      //         );
-      //       },
-      //         spacing: 15,
-      //         backgroundColor: Color.fromRGBO(255,110,93,1),
-      //         // label: "Delete",
-      //         icon: Icons.delete_outline,
-      //         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
-      //             topLeft:Radius.circular(12) ),
-      //       ),
+            SlidableAction(onPressed: (BuildContext cotext)  {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SubscriptionsPlanPage(plan.id!)),
+              );
+            },
+              spacing: 15,
+              backgroundColor: Colors.blueGrey,
+              // label: "Delete",
+              icon: Icons.person_2_sharp,
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),
+                  topLeft:Radius.circular(12) ),
+            ),
             SlidableAction(onPressed: (BuildContext cotext){
               print("${plan.id}");
-             // Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificCam(  camera:camera, )));
-              //  BottomSheet
-              // FirebaseManager.editTask(task);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UpdatePlan(plan)),
+              );
             },
               spacing: 15,
               backgroundColor: Color.fromRGBO(151,213,201,1),
@@ -64,13 +53,6 @@ class PlanItem extends StatelessWidget {
             )
           ],),
 
-        // child: Column(
-        //   children: [
-        //     Text(camera.id),
-        //     Text(camera.location),
-        //   ],
-        //
-        // )
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Center(
@@ -95,30 +77,36 @@ class PlanItem extends StatelessWidget {
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Plan ID : ${plan.id}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Plan ID : ${plan?.id??0}",style: TextStyle(
+                        fontSize:17,
+                       // fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(height: 5,),
-                      Text("Name : ${plan.name}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
-                      SizedBox(height: 5,),
-
-                      // SizedBox(width: 5,),
-                      Text("Description : ${plan.description}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Name : ${plan?.name ?? 'No Name'}",style: TextStyle(
+                        fontSize:17,
+                        //fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(height: 5,),
 
                       // SizedBox(width: 5,),
-                      Text("Price : ${plan.price}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Description : ${plan?.description ?? 'No Description'}",style: TextStyle(
+                        fontSize:17,
+                       // fontWeight: FontWeight.w500,
                         color:Colors.white,)),
-                      Text("Subscription duration : ${plan.periodInDays}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      SizedBox(height: 5,),
+
+                      // SizedBox(width: 5,),
+                      Text("Price : ${plan?.price??0}",style: TextStyle(
+                        fontSize:17,
+                        // fontWeight: FontWeight.w500,
                         color:Colors.white,)),
-                      Text("Discount : ${plan.discount}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Subscription duration : ${plan?.periodInDays??0}",style: TextStyle(
+                        fontSize:17,
+                      //   fontWeight: FontWeight.w500,
+                        color:Colors.white,)),
+                      Text("Discount : ${plan?.discount??0.0}",style: TextStyle(
+                        fontSize:17,
+                      //  fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       // Text(camera.location,style: TextStyle(fontSize:25,
                       //   fontWeight: FontWeight.w500,
@@ -129,24 +117,6 @@ class PlanItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Spacer(),
-                // InkWell(
-                //   onTap: (){
-                //   //  FirebaseManager.updateTask(task.id, true);
-                //   },
-                //   child: Container(
-                //     width: 69,
-                //     height: 34,
-                //     decoration: BoxDecoration(
-                //     //    color:task.isDone?Colors.transparent:  primary,
-                //         borderRadius: BorderRadius.circular(12)
-                //     ),
-                //     // child:task.isDone?Text("Done!",style: TextStyle(
-                //     //     color: Color(0xFF61E757),fontWeight:FontWeight.w600,fontSize: 22 ),
-                //      // textAlign: TextAlign.center,) :
-                //   //  Icon(Icons.done,color: Colors.white,size: 28),
-                //   ),
-                // )
               ],
             ),
           ),

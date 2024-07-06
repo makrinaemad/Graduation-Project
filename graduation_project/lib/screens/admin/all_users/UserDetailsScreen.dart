@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/UserModel.dart';
+import '../../../shared/style/detailsItem.dart';
 import '../drawer_screen.dart';
 
 class UserDetailsScreen extends StatelessWidget {
@@ -12,7 +13,7 @@ class UserDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Details'),
+        title: Text('${user.name}'),
           backgroundColor: Color.fromRGBO(14,46,92,1)
       ),
       body: ListView(
@@ -26,17 +27,17 @@ class UserDetailsScreen extends StatelessWidget {
                 height: 180,
               ),
               SizedBox(height: 15.0),
-              _buildDetailItem('ID', user.id),
-              _buildDetailItem('Name', user.name),
-              _buildDetailItem('Address', user.address),
-              _buildDetailItem('Email', user.email),
-              _buildDetailItem('Admin', user.isAdmin??"null" ),
-              _buildDetailItem('Premium', user.isPremium??"null" ),
-              _buildDetailItem('Car License', user.carLicense),
-              _buildDetailItem('Reset Code', user.resetCode),
-              _buildDetailItem('Last Reset Date', user.lastResetDate),
-              _buildDetailItem('Verified', user.isVerified ??"null"),
-              _buildDetailItem('Avatar', user.avatar),
+              buildDetailItem(  label: 'ID', value: user.id,),
+              buildDetailItem(  label:'Name', value: user.name,),
+              buildDetailItem( label: 'Address', value: user.address??"", ),
+              buildDetailItem(  label:'Email', value: user.email,),
+              buildDetailItem(  label: 'Admin', value: user.isAdmin,),
+              buildDetailItem(  label: 'Premium', value:user.isPremium,),
+              buildDetailItem(  label: 'Car License', value:user.carLicense??"",),
+              buildDetailItem(label:'Reset Code',  value:user.resetCode??"", ),
+              buildDetailItem(  label: 'Last Reset Date', value: user.lastResetDate??"",),
+              buildDetailItem( label: 'Verified', value: user.isVerified ??"",),
+              buildDetailItem( label: 'Avatar', value: user.avatar??"", ),
             ],
           ),
 
@@ -46,28 +47,5 @@ class UserDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailItem(String label, var value) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              label,
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),
-            ),
-          ),
-          SizedBox(width: 15.0),
-          Expanded(
-            flex: 3,
-            child: Text(value.toString(),
-                style: TextStyle(fontSize: 15),),
 
-          ),
-        ],
-      ),
-    );
-  }
 }

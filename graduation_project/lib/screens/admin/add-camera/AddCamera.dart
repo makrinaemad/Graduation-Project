@@ -28,7 +28,7 @@ final bool update;
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: 30),
-          FutureBuilder<List<RoadModel>>(
+          FutureBuilder<dynamic>(
             future: ApiManager.getRoads("road/"),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

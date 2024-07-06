@@ -5,10 +5,11 @@ import 'package:latlong2/latlong.dart';
 import '../drawer_screen.dart';
 
 class MyAddMap extends StatefulWidget {
-  final Function(LatLng) setSTPoint;
-  final Function(LatLng) setENDPoint;
+  final Function(LatLng?) setSTPoint;
+  final Function(LatLng?) setENDPoint;
+  final LatLng setcenterPoint;
 
-  MyAddMap({required this.setSTPoint, required this.setENDPoint});
+  MyAddMap({required this.setSTPoint, required this.setENDPoint, required this.setcenterPoint});
 
   @override
   _MyAddMapState createState() => _MyAddMapState();
@@ -17,78 +18,79 @@ class MyAddMap extends StatefulWidget {
 class _MyAddMapState extends State<MyAddMap> {
   LatLng? startPoint;
   LatLng? endPoint;
-
+  late MapController mapController;
   List<Polyline> lstPolygone = [];
+
+  @override
+  void initState() {
+    super.initState();
+    mapController = MapController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      mapController.move(widget.setcenterPoint, mapController.zoom);
+    });
+    print("initState: centerPoint = ${widget.setcenterPoint}");
+  }
+
+  @override
+  void didUpdateWidget(covariant MyAddMap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update centerPoint when the widget is updated
+    if (oldWidget.setcenterPoint != widget.setcenterPoint) {
+      mapController.move(widget.setcenterPoint, mapController.zoom);
+      print("didUpdateWidget: centerPoint updated to ${widget.setcenterPoint}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FlutterMap(
-        options: MapOptions(
-          center: LatLng(30.0444, 31.2357),
-          zoom: 8.0,
-          onTap: (_, point) {
-            setState(() {
-              if (startPoint == null) {
-                startPoint = point;
-                widget.setSTPoint(point);
-              } else if (endPoint == null) {
-                endPoint = point;
-                widget.setENDPoint(point);
+      body: Center(
+        child: FlutterMap(
+          mapController: mapController,
+          options: MapOptions(
+            center: widget.setcenterPoint,
+            zoom: 12.0,
+            enableScrollWheel: true,
+            initialZoom: 8,
+            onTap: (_, point) {
+              setState(() {
+                bool flag = false;
+                if (startPoint == null) {
+                  startPoint = point;
+                  widget.setSTPoint(point);
+                } else if (endPoint == null) {
+                  endPoint = point;
+                  widget.setENDPoint(point);
 
-                // Adding the polyline between start and end points
-                if (startPoint != null && endPoint != null) {
-                  lstPolygone = [
-                    Polyline(
-                      points: [startPoint!, endPoint!],
-                      strokeWidth: 4.0,
-                      color: Colors.blue,
-                    )
-                  ];
+                  // Adding the polyline between start and end points
+                  if (startPoint != null && endPoint != null && !flag) {
+                    lstPolygone = [
+                      Polyline(
+                        points: [startPoint!, endPoint!],
+                        strokeWidth: 4.0,
+                        color: Colors.blue,
+                      )
+                    ];
+                  }
+                } else {
+                  startPoint = point;
+                  widget.setSTPoint(point);
+                  endPoint = null;
+                  widget.setENDPoint(null);
                 }
-              }
-            });
-          },
+              });
+            },
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              subdomains: ['a', 'b', 'c'],
+            ),
+            PolylineLayer(
+              polylines: lstPolygone,
+            ),
+          ],
         ),
-        children: [
-          TileLayer(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
-          ),
-          PolylineLayer(
-            polylines: lstPolygone,
-          ),
-          // if (startPoint != null)
-          //   MarkerLayer(
-          //     markers: [
-          //       Marker(
-          //         point: startPoint!,
-          //         width: 5,
-          //         height: 5,
-          //         child:  Icon(
-          //           Icons.location_on,
-          //           color: Colors.red,
-          //
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // if (endPoint != null)
-          //   MarkerLayer(
-          //     markers: [
-          //       Marker(
-          //         point: endPoint!,
-          //         width: 5,
-          //         height:5,
-          //         child: Icon(
-          //           Icons.location_on,
-          //           color: Colors.green,
-          //
-          //         ),
-          //       ),
-         //     ],
-         //   ),
-        ],
       ),
       endDrawer: DrawerScreen(),
     );

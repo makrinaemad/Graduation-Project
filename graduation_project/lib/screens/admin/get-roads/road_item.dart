@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:graduation_project/screens/admin/admin_home.dart';
+import 'package:graduation_project/screens/admin/get-roads/road_cam_list.dart';
 import 'package:graduation_project/screens/admin/update_road/latlng.dart';
+import '../../../main.dart';
 import '../../../models/RoadModel.dart';
 import '../../../shared/remote/api_manager.dart';
 import '../update_road/edit_road.dart';
@@ -23,6 +25,7 @@ class RoadItem extends StatelessWidget {
       child: Slidable(
         startActionPane: ActionPane(motion: DrawerMotion(),
           children: [
+
             SlidableAction(onPressed: (BuildContext cotext) async {
               await ApiManager.deleteRoad(road.id!);
               Navigator.push(
@@ -54,16 +57,16 @@ class RoadItem extends StatelessWidget {
               icon:  Icons.edit_outlined,
 
             ),
+            SlidableAction(onPressed: (BuildContext cotext){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CameraListScreen(road)));
+            },
+              spacing: 15,
+              backgroundColor:Colors.blueGrey,
+              icon:  Icons.camera_alt_sharp,
+
+            ),
 
           ],),
-
-        // child: Column(
-        //   children: [
-        //     Text(camera.id),
-        //     Text(camera.location),
-        //   ],
-        //
-        // )
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Center(
@@ -88,22 +91,18 @@ class RoadItem extends StatelessWidget {
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Road ID : ${road.id??"no"}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Road ID : ${road.id??"no"}",style: TextStyle(fontSize: 17,
+                       // fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(height: 5,),
-                      Text("Name : ${road.name??"no"}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Name : ${road.name??"no"}",style: TextStyle(fontSize: 17,
+                       // fontWeight: FontWeight.w500,
                         color:Colors.white,)),
                       SizedBox(width: 5,),
-                      Text("Address : ${extractdescriptionFromAddress(road.address!)}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                      Text("Address : ${extractdescriptionFromAddress(road.address!)}",style: TextStyle(fontSize: 17,
+                   //     fontWeight: FontWeight.w500,
                         color:Colors.white,)),
-                      // Text(camera.location,style: TextStyle(fontSize:25,
-                      //   fontWeight: FontWeight.w500,
-                      //   color:Colors.white,
-                      //
-                      // ),)
+
                     ],
                   ),
                 ),

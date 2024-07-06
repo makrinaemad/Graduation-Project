@@ -5,51 +5,19 @@ import 'package:graduation_project/screens/admin/get-roads/get_road.dart';
 import 'package:graduation_project/screens/admin/get_camera/get_camera.dart';
 import 'package:graduation_project/screens/admin/get_plans/get_plans.dart';
 
+
 import 'all_users/AllAdmins.dart';
 import 'all_users/AllUsers.dart';
+import 'get_history_admin/GetHistory.dart';
+import 'get_subscriptions/GetSubscriotions.dart';
+
 
 class DrawerScreen extends StatelessWidget {
- //  Function onDrawerSelected;
- // static int CATEGORIES=1;
- //  static int SETTINGS=1;
   DrawerScreen();
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.stretch,
-      //   children: [
-      //     Container(
-      //       height: 70,
-      //       color: Colors.green,
-      //       child: Center(child: Text("News App",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.white),)),
-      //     ),
-      //     SizedBox(height: 5,),
-      //     InkWell(
-      //       onTap: (){
-      //       //  onDrawerSelected(CATEGORIES);
-      //       },
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Text("Categorie",style:TextStyle(fontSize: 18,
-      //         ),
-      //         ),
-      //       ),
-      //     ),
-      //    // SizedBox(height: 15,),
-      //     InkWell(
-      //       onTap: (){
-      //      //   onDrawerSelected(SETTINGS);
-      //       },
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Text("Settings",style:TextStyle(fontSize: 18,
-      //         ),),
-      //       ),
-      //     )
-      //   ],
-      // ),
       child: Container(
         width: 10,
         height: 10,
@@ -124,8 +92,34 @@ class DrawerScreen extends StatelessWidget {
                 );
               },
             ),
+
+
+            //SubscriptionsPage
+
+            ListTile(
+              leading: Icon(Icons.history),
+              title: Text('Forcast History'),
+              onTap: () {
+                //////////////
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HistoryPage()),
+                );
+              },
+            ),
             ListTile(
               leading: Icon(Icons.subscriptions_outlined),
+              title: Text('Subscribers'),
+              onTap: () {
+                //////////////
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SubscribtionsPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.assignment_sharp),
               title: Text('Subscription Plans'),
               onTap: () {
                 //////////////

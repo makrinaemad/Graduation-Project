@@ -93,7 +93,7 @@ class _AddCameraMapState extends State<AddCameraMap> {
   void handleSubmit() async {
     if (latlnglocal != null) {
       String? temp = widget.CamRoad.dimentions;
-      widget.CamRoad.dimentions = '$temp ${latlnglocal?.latitude}-${latlnglocal?.longitude}';
+      widget.CamRoad.dimentions = '$temp ${latlnglocal?.longitude}-${latlnglocal?.latitude}';
       print("Updated dimensions: ${widget.CamRoad.dimentions}");
 
       // Camera camera = Camera(
@@ -126,7 +126,7 @@ class _AddCameraMapState extends State<AddCameraMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Set Camera location on the road'),
+        title: Text('Set Camera Location'),
         backgroundColor: Color.fromRGBO(14, 46, 92, 1),
       ),
       body: Column(

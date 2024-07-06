@@ -70,3 +70,102 @@ class RoadCamera {
     return map;
   }
 }
+
+
+class CameraData {
+  final RoadCam roadCam;
+  final CameraDetails cameraDetails;
+
+  CameraData({required this.roadCam, required this.cameraDetails});
+
+  factory CameraData.fromJson(Map<String, dynamic> json) {
+    return CameraData(
+      roadCam: RoadCam.fromJson(json['roadCam']),
+      cameraDetails: CameraDetails.fromJson(json['cameraDetails']),
+    );
+  }
+}
+
+class RoadCam {
+  final int id;
+  final int roadId;
+  final int camId;
+  final String dimensions;
+  final bool active;
+  final String startDate;
+  final String? endDate;
+
+  RoadCam({
+    required this.id,
+    required this.roadId,
+    required this.camId,
+    required this.dimensions,
+    required this.active,
+    required this.startDate,
+    this.endDate,
+  });
+
+  factory RoadCam.fromJson(Map<String, dynamic> json) {
+    return RoadCam(
+      id: json['id'],
+      roadId: json['road_id'],
+      camId: json['cam_id'],
+      dimensions: json['dimensions'],
+      active: json['active'],
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+    );
+  }
+}
+
+class CameraDetails {
+  final int id;
+  final String model;
+  final String? startService;
+  final String factory;
+  final String? imgsUrls;
+
+  CameraDetails({
+    required this.id,
+    required this.model,
+    this.startService,
+    required this.factory,
+    this.imgsUrls,
+  });
+
+  factory CameraDetails.fromJson(Map<String, dynamic> json) {
+    return CameraDetails(
+      id: json['id'],
+      model: json['model'],
+      startService: json['start_service'],
+      factory: json['factory'],
+      imgsUrls: json['imgs_urls'],
+    );
+  }
+}
+
+
+class AllCamerasResponse {
+  final List<CameraData> allCameras;
+
+  AllCamerasResponse({required this.allCameras});
+
+  factory AllCamerasResponse.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('AllCameras')) {
+      return AllCamerasResponse(
+        allCameras: List<CameraData>.from(json['AllCameras'].map((x) => CameraData.fromJson(x))),
+      );
+    } else if (json.containsKey('Road_Cams') && json.containsKey('Cameras')) {
+      return AllCamerasResponse(
+        allCameras: [
+          CameraData.fromJson({
+            'roadCam': json['Road_Cams'],
+            'cameraDetails': json['Cameras'],
+          })
+        ],
+      );
+    } else {
+      throw Exception('Invalid JSON structure');
+    }
+  }
+}

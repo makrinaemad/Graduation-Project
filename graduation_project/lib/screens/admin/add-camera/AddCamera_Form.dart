@@ -29,6 +29,22 @@ class _CameraFormState extends State<CameraForm> {
       initialDate: startDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.red, // Header background color
+            hintColor: Color.fromRGBO(14, 46, 92, 1), // Selection color
+            colorScheme: ColorScheme.light(
+              primary:  Color.fromRGBO(14, 46, 92, 1), // Header background color and OK button
+              onPrimary: Colors.white, // Header text color
+              onSurface: Color.fromRGBO(14, 46, 92, 1), // Body text color
+            ),
+            dialogBackgroundColor: Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null && pickedDate != startDate) {
       setState(() {
@@ -100,7 +116,7 @@ class _CameraFormState extends State<CameraForm> {
 
         )),
               RadioListTile<bool>(
-                title: Text('True',style: TextStyle(
+                title: Text('Active',style: TextStyle(
                   color: Color(0xff076092),
                   fontSize: 15,
 
@@ -115,7 +131,8 @@ class _CameraFormState extends State<CameraForm> {
                 },
               ),
               RadioListTile<bool>(
-                title: Text('False',style: TextStyle(
+
+                title: Text('Inactive',style: TextStyle(
                   color: Color(0xff076092),
                   fontSize: 15,)),
                 value: false,
@@ -175,18 +192,19 @@ class _CameraFormState extends State<CameraForm> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         Camera camRoad;
-                        if (_isActive == false)
+                        if (_isActive == true)
                         camRoad = Camera(
                           model: _modelController.text,
                           factory: _companyNameController.text,
                           active: _isActive,
+                          startService: "${_startDate!.toLocal()}".split(' ')[0],
                          dimentions: _dimensionsController.text,
                         );
                       else
                           camRoad = Camera(
                             model: _modelController.text,
                             factory: _companyNameController.text,
-                            startService: _startDate,
+                            startService: _startdateController.text,
                             active: _isActive,
                             dimentions: _dimensionsController.text,
                           );

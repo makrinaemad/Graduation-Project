@@ -36,9 +36,9 @@ class UserItem extends StatelessWidget {
 
               },
                 // spacing: 5,
-                backgroundColor:Colors.grey,
+                backgroundColor:Colors.blueGrey,
                 // label: "Edit",
-                icon:  Icons.details,
+                icon:  Icons.person_2_sharp,
 
               )
             ],),
@@ -72,17 +72,17 @@ class UserItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
 
-                          Text("Name : ${user.name}",style: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          Text("Name : ${user.name}",style: TextStyle(fontSize: 17,
+                        //  fontWeight: FontWeight.w500,
                           color:Colors.white,)),
                         SizedBox(height: 5,),
-                        Text("Email : ${user.email}",style: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                        Text("Email : ${user.email}",style: TextStyle(fontSize: 17,
+                        //  fontWeight: FontWeight.w500,
                           color:Colors.white,)),
                         SizedBox(height: 5,),
                         // SizedBox(width: 5,),
-                        Text("Address : ${user.address}",style: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                        Text("Address : ${user.address??"No Address"}",style: TextStyle(fontSize: 17,
+                      //    fontWeight: FontWeight.w500,
                           color:Colors.white,)),
                       ],
                     ),

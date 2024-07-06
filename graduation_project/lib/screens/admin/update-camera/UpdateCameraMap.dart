@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../models/CamModel.dart';
-import '../../../models/CamRoadModel.dart';
 import '../../../shared/remote/api_manager.dart';
 import '../admin_home.dart';
 import '../drawer_screen.dart';
@@ -13,6 +12,7 @@ class UpdateCameraMap extends StatefulWidget {
   final LatLng endPoint;
   final Camera CamRoad;
   final bool change_road;
+
   UpdateCameraMap({required this.startPoint, required this.endPoint, required this.CamRoad,required this.change_road});
   @override
   _AddCameraMapState createState() => _AddCameraMapState();
@@ -22,8 +22,6 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
   List<Polyline> lstPolygone = [];
   List<Marker> markers = [];
   MapController mapController = MapController();
- // ? latLngCamera;
- // LatLng? latLngCamera= extractLatLngCameraLocation(widget.CamRoad.camera!.dimentions!);
   LatLng? latlnglocal;
 
 
@@ -48,13 +46,16 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
   }
   void _addMarker(LatLng latlng) {
     print("Adding marker at: $latlng");
+    // LatLng temp;
+    // temp.latitude=latlng?.longitude;
+    // temp.longitude!=latlng?.latitude;
 
-    if (_isWithinBounds(latlng)) {
+     if (_isWithinBounds(LatLng(latlng.longitude,latlng.latitude))) {
       setState(() {
         markers.clear();
         markers.add(
           Marker(
-            point: latlng,
+            point:LatLng(latlng.longitude,latlng.latitude),
             width: 50,
             height: 50,
             child: Icon(
@@ -63,10 +64,9 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
             ),
           ),
         );
-        latlnglocal = latlng;
+        latlnglocal = LatLng(latlng.longitude,latlng.latitude);
+      //  print("temppppppppppp${latlnglocal}");
       });
-
-      // Move the ScaffoldMessenger logic to a safe place, like in setState callback or build method
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Marker added successfully')),
@@ -85,19 +85,9 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
   void handleSubmit() async {
     if (latlnglocal != null) {
       String? temp = extractdescriptionFromAddress(widget.CamRoad.dimentions!) ;
-      widget.CamRoad.dimentions = '$temp ${latlnglocal?.latitude}-${latlnglocal?.longitude}';
+      widget.CamRoad.dimentions = '$temp ${latlnglocal?.longitude}-${latlnglocal?.latitude}';
       print("Updated dimensions: ${widget.CamRoad.dimentions}");
-
-      // Camera camera = Camera(
-      //   active: widget.CamRoad.active,
-      //   model: widget.CamRoad.model,
-      //   road_id: widget.CamRoad.road_id,
-      //   dimentions: widget.CamRoad.dimentions,
-      //   factory: widget.CamRoad.factory,
-      //   startService: widget.CamRoad.startService,
-      // );
       await ApiManager.updateCamera(widget.CamRoad);
-      //await ApiManager.PostCam (camera);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AdminHome()),
@@ -137,14 +127,16 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
     });
     if(latLngCamera!=null){
       _addMarker(latLngCamera);
-      latlnglocal=latLngCamera;}
+      latlnglocal=latLngCamera;
+    print("hhhhhhhhhhh${latlnglocal}");
+    }
   }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Set Camera location on the road'),
+        title: Text('Set Camera Location'),
         backgroundColor: Color.fromRGBO(14, 46, 92, 1),
       ),
       body: Column(
@@ -157,8 +149,7 @@ class _AddCameraMapState extends State<UpdateCameraMap> {
                 zoom: 8.0,
                 onTap: (tapPosition, latlng) {
                   print("${latlng.latitude}-${latlng.longitude} tapped");
-
-                  _addMarker(latlng);
+                  _addMarker(LatLng(latlng.longitude, latlng.latitude));
                 },
               ),
               children: [

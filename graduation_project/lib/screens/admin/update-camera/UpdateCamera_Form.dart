@@ -63,6 +63,21 @@ class _UpdateCameraFormState extends State<UpdateCameraForm> {
       initialDate: startDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.red, // Header background color
+            hintColor: Color.fromRGBO(14, 46, 92, 1), // Selection color
+            colorScheme: ColorScheme.light(
+              primary:  Color.fromRGBO(14, 46, 92, 1), // Header background color and OK button
+              onPrimary: Colors.white, // Header text color
+              onSurface: Color.fromRGBO(14, 46, 92, 1), // Body text color
+            ),
+            dialogBackgroundColor: Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null && pickedDate != startDate) {
       setState(() {
@@ -166,7 +181,7 @@ class _UpdateCameraFormState extends State<UpdateCameraForm> {
               ),
               RadioListTile<bool>(
                 title: Text(
-                  'True',
+                  'Active',
                   style: TextStyle(
                     color: Color(0xff076092),
                     fontSize: 15,
@@ -183,7 +198,7 @@ class _UpdateCameraFormState extends State<UpdateCameraForm> {
               ),
               RadioListTile<bool>(
                 title: Text(
-                  'False',
+                  'Inactive',
                   style: TextStyle(
                     color: Color(0xff076092),
                     fontSize: 15,
