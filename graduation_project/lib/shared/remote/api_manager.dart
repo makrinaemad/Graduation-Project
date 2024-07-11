@@ -12,48 +12,6 @@ import '../../models/RoadModel.dart';
 import '../../models/SubscribtionsModel.dart';
 import '../constant/constant.dart';
 class ApiManager{
-  Future<VehicleForecast> sendForecastingData(RoadData roadData) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    Map<String, dynamic> jsonData = roadData.toJson();
-       Uri url = Uri.https(Base, 'forecast/calc');
-    var response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(jsonData),
-    );
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> responseJson = jsonDecode(response.body);
-      print('API Response: $responseJson');
-      return VehicleForecast.fromJson(responseJson);
-    } else {
-      throw Exception('Failed to send road data');
-    }
-  }
-  // static Future<VehicleForecast> sendForcastingData(RoadData roadData,String token2) async {
-  //   Map<String, dynamic> jsonData = roadData.toJson();
-  //   Uri url = Uri.https(Base, 'forecast/calc');
-  //   // Send POST request
-  //
-  //     var response = await http.post(
-  //       url,
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //         'Authorization': 'Bearer $token2',
-  //       },
-  //       body: jsonEncode(jsonData),
-  //     );
-  //   if (response.statusCode == 200) {
-  //     return jsonDecode(response.body);
-  //   } else {
-  //     throw Exception('Failed to send road data');
-  //   }
-  // }
-
 
   static Future<dynamic> getCameras(String endPoint)async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -144,8 +102,9 @@ class ApiManager{
 
 
   static Future<RoadModel> getSpecificRoad(String endPoint) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // var token = prefs.getString('token');
+    String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjExNDEwMTIwMjAwNDE0QHN0dWQuY3UuZWR1LmVnIiwiaWQiOjUxMzAwMCwiYWRtaW4iOnRydWUsImlhdCI6MTcxODgwNDAwOSwiZXhwIjoxNzIxMzk2MDA5fQ.Nesb3X49i3iRU6HxwJGGH1HEBAakEWNbhjYSCb0k2us";
     try {
       Uri url = Uri.https(Base, endPoint);
       http.Response response = await http.get(url, headers: {
@@ -169,7 +128,7 @@ class ApiManager{
     }
   }
 
-  static Future<dynamic> getRoads(String endPoint) async {
+  static Future<List<RoadModel>> getRoads(String endPoint) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
     List<RoadModel> _roads = [];
