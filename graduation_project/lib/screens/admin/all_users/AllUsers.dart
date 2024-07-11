@@ -18,6 +18,8 @@ class _UserListScreenState extends State<UserListScreen> {
   TextEditingController _searchController = TextEditingController();
   List<Result> _users = [];
   List<Result> _filteredUsers = [];
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -36,12 +38,15 @@ class _UserListScreenState extends State<UserListScreen> {
     try {
       var response = await ApiManager.getUsers("user/");
       setState(() {
-        _users = response.result ?? [];
+        _users = response.result?.where((user) => user.isAdmin == false).toList() ?? [];
         _filteredUsers = _users;
+        _isLoading = false;
       });
     } catch (error) {
-      // Handle error
-      print('Error fetching users: $error');
+      setState(() {
+        _errorMessage = 'Error fetching users: $error';
+        _isLoading = false;
+      });
     }
   }
 
@@ -49,9 +54,9 @@ class _UserListScreenState extends State<UserListScreen> {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredUsers = _users.where((user) {
-        return user.name!.toLowerCase().contains(query) ||
-            user.email!.toLowerCase().contains(query) ||
-            user.address!.toLowerCase().contains(query);
+        return (user.name?.toLowerCase().contains(query) ?? false) ||
+            (user.email?.toLowerCase().contains(query) ?? false) ||
+            (user.address?.toLowerCase().contains(query) ?? false);
       }).toList();
     });
   }
@@ -100,53 +105,32 @@ class _UserListScreenState extends State<UserListScreen> {
   }
 
   Widget _buildUsersList() {
-    return FutureBuilder<List<Result>>(
-      future: ApiManager.getUsers("user/").then((response) => response.result ?? []),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(color: Colors.blue),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(snapshot.error?.toString() ?? "An error occurred"),
-                TextButton(
-                  onPressed: () {
-                    // Retry logic
-                  },
-                  child: const Text("Try again"),
-                ),
-              ],
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.blue),
+      );
+    }
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_errorMessage!),
+            TextButton(
+              onPressed: _fetchUsers,
+              child: const Text("Try again"),
             ),
-          );
-        }
-        if (snapshot.hasData) {
-          final users = snapshot.data!;
-          _users = users;
-          _filteredUsers = _users.where((user) {
-            String query = _searchController.text.toLowerCase();
-            return user.name!.toLowerCase().contains(query) ||
-                user.email!.toLowerCase().contains(query) ||
-                user.address!.toLowerCase().contains(query);
-          }).toList();
-
-          return ListView.builder(
-            itemCount: _filteredUsers.length,
-            itemBuilder: (context, index) {
-              if (_filteredUsers[index].isAdmin == false) {
-                return UserItem(_filteredUsers[index]);
-              } else {
-                return SizedBox.shrink(); // Empty container for admins
-              }
-            },
-          );
-        } else {
-          return Center(child: Text('No users found'));
-        }
+          ],
+        ),
+      );
+    }
+    if (_filteredUsers.isEmpty) {
+      return Center(child: Text('No users found'));
+    }
+    return ListView.builder(
+      itemCount: _filteredUsers.length,
+      itemBuilder: (context, index) {
+        return UserItem(_filteredUsers[index]);
       },
     );
   }

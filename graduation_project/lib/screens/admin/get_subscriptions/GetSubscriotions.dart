@@ -98,9 +98,11 @@ class _SubscriptionsPageState extends State<SubscribtionsPage> {
             _subscriptions = snapshot.data!.subscriptions;
             _filteredSubscriptions = _subscriptions;
             return ListView.builder(
+
               itemCount: _filteredSubscriptions.length,
               itemBuilder: (context, index) {
                 final subscription = _filteredSubscriptions[index];
+
                 return SubscribtionsItem(subscription);
               },
             );

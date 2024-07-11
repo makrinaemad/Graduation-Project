@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/UserModel.dart';
 import '../../../shared/style/detailsItem.dart';
-import '../../user/setting/edit_profile_screen.dart';
+import '../../user features/setting/edit_profile_screen.dart';
 import '../drawer_screen.dart';
 
 class AdminProfile extends StatelessWidget {
@@ -27,16 +27,16 @@ class AdminProfile extends StatelessWidget {
                 height: 180,
               ),
               SizedBox(height: 15.0),
-              buildDetailItem(label: 'ID', value: user.id),
+             // buildDetailItem(label: 'ID', value: user.id),
               buildDetailItem(label: 'Name', value: user.name),
               buildDetailItem(label: 'Address', value: user.address ?? ""),
               buildDetailItem(label: 'Email', value: user.email),
-              buildDetailItem(label: 'Admin', value: user.isAdmin.toString()),
+           //   buildDetailItem(label: 'Admin', value: user.isAdmin.toString()),
               buildDetailItem(label: 'Premium', value: user.isPremium.toString()),
               buildDetailItem(label: 'Car License', value: user.carLicense ?? ""),
               buildDetailItem(label: 'Reset Code', value: user.resetCode ?? ""),
               buildDetailItem(label: 'Last Reset Date', value: user.lastResetDate ?? ""),
-              buildDetailItem(label: 'Verified', value: user.isVerified.toString()),
+              buildDetailItem(label: 'Verified', value: user.isVerified??""),
               buildDetailItem(label: 'Avatar', value: user.avatar ?? ""),
             ],
           ),

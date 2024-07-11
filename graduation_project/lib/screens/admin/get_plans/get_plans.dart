@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/models/RoadModel.dart';
-import 'package:graduation_project/screens/user/premium/plan_user_item.dart';
-
-
-import '../../../models/CamModel.dart';
 import '../../../models/PlanModel.dart';
 import '../../../shared/remote/api_manager.dart';
+import '../../user features/premium/plan_user_item.dart';
 import '../admin_home.dart';
 import '../drawer_screen.dart';
 import 'PlanItem.dart';

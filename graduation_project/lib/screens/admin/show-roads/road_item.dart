@@ -90,9 +90,9 @@ class RoadItem extends StatelessWidget {
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Road ID : ${road.id??"no"}",style: TextStyle(fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
+                      // Text("Road ID : ${road.id??"no"}",style: TextStyle(fontSize: 20,
+                      //   fontWeight: FontWeight.w500,
+                      //   color:Colors.white,)),
                       SizedBox(height: 5,),
                       Text("Name : ${road.name??"no"}",style: TextStyle(fontSize: 20,
                         fontWeight: FontWeight.w500,

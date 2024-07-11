@@ -59,9 +59,10 @@ class _EditCameraState extends State<EditCamera> {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredCameras = _cameras.where((camera) {
-        return camera.model!.toLowerCase().contains(query) ||
-            camera.id.toString().toLowerCase().contains(query) ||
-            camera.startService.toLowerCase().contains(query);
+        String model = camera.model?.toLowerCase() ?? '';
+        String id = camera.id.toString().toLowerCase();
+        String startService = camera.startService?.toLowerCase() ?? '';
+        return model.contains(query) || id.contains(query) || startService.contains(query);
       }).toList();
     });
   }

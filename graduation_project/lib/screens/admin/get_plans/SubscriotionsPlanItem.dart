@@ -10,85 +10,115 @@ import '../admin_home.dart';
 import '../all_users/UserDetailsScreen.dart';
 import '../get_plans/PlanItem.dart';
 
+class SubscribtionsPlanItem extends StatefulWidget {
+  final SubscriptionModel sub;
 
-class SubscribtionsPlanItem extends StatelessWidget {
+  SubscribtionsPlanItem(this.sub, {super.key});
 
-  SubscriptionModel sub ;
+  @override
+  _SubscribtionsPlanItemState createState() => _SubscribtionsPlanItemState();
+}
 
-  SubscribtionsPlanItem (this.sub,{super.key});
+class _SubscribtionsPlanItemState extends State<SubscribtionsPlanItem> {
+  Result? user;
 
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    try {
+      user = await ApiManager().fetchUserData("user/${widget.sub.userId}");
+      setState(() {}); // Update the state to refresh the UI
+    } catch (e) {
+      print('Error fetching user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    Result? user;
-    return Card (
-      color: Color.fromRGBO(14,46,92,1),
+    String name=user?.name ?? 'Loading...';
+    return Card(
+      color: Color.fromRGBO(14, 46, 92, 1),
       elevation: 12,
-      margin: EdgeInsets.symmetric(horizontal: 25,vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.transparent)),
+      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(color: Colors.transparent),
+      ),
       child: Slidable(
-        startActionPane: ActionPane(motion: DrawerMotion(),
+        startActionPane: ActionPane(
+          motion: DrawerMotion(),
           children: [
-
-            SlidableAction(onPressed: (BuildContext cotext) async {
-
-              print("${sub.id}");
-              try {
-                 user = await ApiManager().fetchUserData("user/${sub.userId}");
-              } catch (e) {
-                print('Error: $e');
-              }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => UserDetailsScreen(user: user!,)));
-            },
+            SlidableAction(
+              onPressed: (BuildContext context) async {
+                try {
+                  if (user != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserDetailsScreen(user: user!),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  print('Error: $e');
+                }
+              },
               spacing: 15,
-              backgroundColor:Colors.blueGrey,
-              icon:  Icons.person_2_sharp,
-
-            )
-          ],),
+              backgroundColor: Colors.blueGrey,
+              icon: Icons.person_2_sharp,
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Row(
               children: [
                 Container(
-                    height: 60,
-                    width: 3,
-                    decoration:BoxDecoration(
-
-                      color:Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color:Colors.white),
-                    )),
-                SizedBox(width:20),
+                  height: 60,
+                  width: 3,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white),
+                  ),
+                ),
+                SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("User ID : ${sub.userId}",style: TextStyle(fontSize: 17,
-                       // fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
-
-                      // SizedBox(width: 5,),
-                      // Text("Plan ID : ${sub.planId}",style: TextStyle(fontSize: 20,
-                      //   fontWeight: FontWeight.w500,
-                      //   color:Colors.white,)),
-                      SizedBox(height: 5,),
-                      Text("Start Date : ${sub.startDate}",style: TextStyle(fontSize: 17,
-                       // fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
-                      SizedBox(height: 5,),
-                      Text("End Date : ${sub.endDate}",style: TextStyle(fontSize: 17,
-                       // fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
-                      SizedBox(height: 5,),
-
+                      Text(
+                        "User Name : ${name}",
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "Start Date : ${widget.sub.startDate}",
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "End Date : ${widget.sub.endDate}",
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
                     ],
                   ),
                 ),
-
               ],
             ),
           ),

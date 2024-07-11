@@ -94,11 +94,11 @@ class CameraItem extends StatelessWidget {
                       // SizedBox(
                       //   height: 31,
                       // ),
-                      Text("Camera ID : ${camera.id}",style: TextStyle(fontSize: 17,
-                       // fontWeight: FontWeight.w500,
-                        color:Colors.white,)),
-
-                      SizedBox(width: 5,),
+                      // Text("Camera ID : ${camera.id}",style: TextStyle(fontSize: 17,
+                      //  // fontWeight: FontWeight.w500,
+                      //   color:Colors.white,)),
+                      //
+                      // SizedBox(width: 5,),
                       Text("Model : ${camera.model}",style: TextStyle(fontSize: 17,
                        // fontWeight: FontWeight.w500,
                         color:Colors.white,)),

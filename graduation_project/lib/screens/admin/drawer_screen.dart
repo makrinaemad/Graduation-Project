@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/screens/Authentication/Authentication%20screens/login_screen.dart';
 import 'package:graduation_project/screens/admin/admin_home.dart';
 import 'package:graduation_project/screens/admin/get-roads/get_road.dart';
 import 'package:graduation_project/screens/admin/get_camera/get_camera.dart';
@@ -126,6 +127,18 @@ class DrawerScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => GetPlan(isUser: false,)),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log out'),
+              onTap: () {
+                //////////////
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false,
                 );
               },
             ),

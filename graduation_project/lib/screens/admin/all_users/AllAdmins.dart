@@ -18,6 +18,8 @@ class _AdminListScreenState extends State<AdminListScreen> {
   TextEditingController _searchController = TextEditingController();
   List<Result> _admins = [];
   List<Result> _filteredAdmins = [];
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -36,12 +38,15 @@ class _AdminListScreenState extends State<AdminListScreen> {
     try {
       var response = await ApiManager.getUsers("user/");
       setState(() {
-        _admins = response.result?.where((user) => user.isAdmin!).toList() ?? [];
+        _admins = response.result?.where((user) => user.isAdmin ?? false).toList() ?? [];
         _filteredAdmins = _admins;
+        _isLoading = false;
       });
     } catch (error) {
-      // Handle error
-      print('Error fetching admins: $error');
+      setState(() {
+        _errorMessage = 'Error fetching admins: $error';
+        _isLoading = false;
+      });
     }
   }
 
@@ -49,9 +54,9 @@ class _AdminListScreenState extends State<AdminListScreen> {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredAdmins = _admins.where((admin) {
-        return admin.name!.toLowerCase().contains(query) ||
-            admin.email!.toLowerCase().contains(query) ||
-            admin.address!.toLowerCase().contains(query);
+        return (admin.name?.toLowerCase().contains(query) ?? false) ||
+            (admin.email?.toLowerCase().contains(query) ?? false) ||
+            (admin.address?.toLowerCase().contains(query) ?? false);
       }).toList();
     });
   }
@@ -100,49 +105,32 @@ class _AdminListScreenState extends State<AdminListScreen> {
   }
 
   Widget _buildAdminsList() {
-    return FutureBuilder<List<Result>>(
-      future: ApiManager.getUsers("user/").then((response) => response.result?.where((user) => user.isAdmin!).toList() ?? []),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(color: Colors.blue),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(snapshot.error?.toString() ?? "An error occurred"),
-                TextButton(
-                  onPressed: () {
-                    // Retry logic
-                  },
-                  child: const Text("Try again"),
-                ),
-              ],
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: Colors.blue),
+      );
+    }
+    if (_errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_errorMessage!),
+            TextButton(
+              onPressed: _fetchAdmins,
+              child: const Text("Try again"),
             ),
-          );
-        }
-        if (snapshot.hasData) {
-          final admins = snapshot.data!;
-          _admins = admins;
-          _filteredAdmins = _admins.where((admin) {
-            String query = _searchController.text.toLowerCase();
-            return admin.name!.toLowerCase().contains(query) ||
-                admin.email!.toLowerCase().contains(query) ||
-                admin.address!.toLowerCase().contains(query);
-          }).toList();
-
-          return ListView.builder(
-            itemCount: _filteredAdmins.length,
-            itemBuilder: (context, index) {
-              return UserItem(_filteredAdmins[index]);
-            },
-          );
-        } else {
-          return Center(child: Text('No admins found'));
-        }
+          ],
+        ),
+      );
+    }
+    if (_filteredAdmins.isEmpty) {
+      return Center(child: Text('No admins found'));
+    }
+    return ListView.builder(
+      itemCount: _filteredAdmins.length,
+      itemBuilder: (context, index) {
+        return UserItem(_filteredAdmins[index]);
       },
     );
   }
